@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <link rel="stylesheet" href="page.css">
+        <title>Holiday Countdown</title>
+    </head>
+    <body>
+      <p id="cd"></p>
+      <script>
+function dayTime(d){
+    var e = new Date(d);
+    return d - e.setHours(0,0,0,0);
+}
+addEventListener("load",()=>{
+    let cde = document.getElementById("cd");
+    function update(){
+        let now = new Date();
+        let dest = new Date(2024,11,21);
+        let wd = 0;
+        let blocks = 0;
+        let BLOCKTIMES = [28800,31200,36600,39600,42600,48300,51300,54000];
+        let dtn = dayTime(now)/1000;
+        for(let block of BLOCKTIMES){
+            let progress = (dtn-block)/2400;
+            blocks -= Math.min(1,Math.max(0,progress));
+        }
+        while(now < dest){
+            if(now.getDay()<6 && now.getDay()>0){
+                ++wd;
+                blocks += 8;
+            }
+            now.setDate(now.getDate()+1);
+        }
+        cde.textContent = `${wd} weekdays(${Math.round(blocks*10000)/10000} blocks) until christmas holiday`;
+    }
+    setInterval(update,700);
+});
+      </script>
+    </body>
+</html>

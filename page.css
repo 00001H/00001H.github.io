@@ -21,3 +21,11 @@ a:visited{
 .sectionheader{
     margin-bottom: 0;
 }
+.box{
+    background-color: #cef9a4;
+    border-radius:12px;
+    padding: 6px;
+}
+p{
+    margin: 0;
+}
