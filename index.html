@@ -13,19 +13,5 @@ I like programming, and also play a <a href="/games.html">wide variety of comput
         <p>
 This page is under construction. More content will be available soon.
         </p>
-        <div class="box">
-            <p>Secret page password:</p>
-            <input id="passbox" name="passbox" type="text" autocomplete="off" spellcheck="false">
-        </div>
-        <script>
-addEventListener("load",()=>{
-    let passbox = document.getElementById("passbox");
-    passbox.addEventListener("keyup",(e)=>{
-        if(e.key==="Enter"){
-            location.href = "/secrets/"+passbox.value;
-        }
-    });
-});
-        </script>
     </body>
 </html>
