@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <link rel="stylesheet" href="page.css">
         <title>Holiday Countdown</title>
     </head>
     <body>
@@ -32,9 +31,10 @@ addEventListener("load",()=>{
             }
             now.setDate(now.getDate()+1);
         }
-        cde.textContent = `${wd} weekdays(${Math.round(blocks*10000)/10000} blocks) until christmas holiday`;
+        cde.textContent = `${wd} weekdays(${(Math.round(blocks*100000)/100000).toFixed(5)} blocks) until christmas holiday`;
+        requestAnimationFrame(update);
     }
-    setInterval(update,700);
+    requestAnimationFrame(update);
 });
       </script>
     </body>
