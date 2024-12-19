@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <textarea id="code"></textarea>
+        <button id="create">Generate permalink</button>
+        <pre id="out"></pre>
+        <script>
+            let sp = new URLSearchParams(location.search);
+            if(sp.has("page")){
+                location.href = "data:text/html;base64,"+btoa(sp.get("page"));
+            }else{
+                document.getElementById("create").addEventListener("click",()=>{
+                    let qs = new URLSearchParams({"page":document.getElementById("code").value});
+                    document.getElementById("out").textContent = location.href+"?"+qs.toString();
+                });
+            }
+        </script>
+    </body>
+</html>
