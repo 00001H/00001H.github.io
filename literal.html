@@ -31,7 +31,7 @@
             function hand(){
                 let sp = new URLSearchParams(location.search);
                 if(sp.has("page")){
-                    document.removeEventListener(hand);
+                    document.removeEventListener("load",hand);
                     document.documentElement.innerHTML = sp.get("page");
                     fix_scripts(document.documentElement);
                     dispatchEvent(new Event("load"));
