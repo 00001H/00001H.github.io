@@ -17,8 +17,7 @@
         <script>
             function scriptdup(node){
                 let dup = document.createElement("script");
-                document.cloneNode()
-                dup.src = "data:text/javascript;base64,"+btoa(node.text);
+                dup.text = node.text;
                 dup.attributes = node.attributes;
                 return dup;
             }
@@ -29,12 +28,13 @@
                     node.childNodes.forEach(fix_scripts);
                 }
             }
-            addEventListener("load",()=>{
+            function hand(){
                 let sp = new URLSearchParams(location.search);
                 if(sp.has("page")){
+                    document.removeEventListener(hand);
                     document.documentElement.innerHTML = sp.get("page");
                     fix_scripts(document.documentElement);
-                    
+                    dispatchEvent(new Event("load"));
                 }else{
                     document.getElementById("stuff").classList.remove("hide");
                     document.getElementById("create").addEventListener("click",()=>{
@@ -42,7 +42,8 @@
                         document.getElementById("out").textContent = location.href+"?"+qs.toString();
                     });
                 }
-            });
+            };
+            addEventListener("load",hand);
         </script>
     </body>
 </html>
