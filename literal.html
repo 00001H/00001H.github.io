@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <style>
+            .hide{
+                display: none;
+            }
+        </style>
     </head>
     <body>
-        <textarea id="code"></textarea>
-        <button id="create">Generate permalink</button>
-        <pre id="out"></pre>
+        <div id="stuff" class="hide">
+            <textarea id="code"></textarea>
+            <button id="create">Generate permalink</button>
+            <pre id="out"></pre>
+        </div>
         <script>
-            let sp = new URLSearchParams(location.search);
-            if(sp.has("page")){
-                document.open();
-                document.write(sp.get("page"));
-                document.close();
-            }else{
-                document.getElementById("create").addEventListener("click",()=>{
-                    let qs = new URLSearchParams({"page":document.getElementById("code").value});
-                    document.getElementById("out").textContent = location.href+"?"+qs.toString();
-                });
-            }
+            addEventListener("load",()=>{
+                let sp = new URLSearchParams(location.search);
+                if(sp.has("page")){
+                    document.open();
+                    document.write(sp.get("page"));
+                    document.close();
+                }else{
+                    document.getElementById("stuff").classList.remove("hide");
+                    document.getElementById("create").addEventListener("click",()=>{
+                        let qs = new URLSearchParams({"page":document.getElementById("code").value});
+                        document.getElementById("out").textContent = location.href+"?"+qs.toString();
+                    });
+                }
+            });
         </script>
     </body>
 </html>
