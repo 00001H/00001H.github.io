@@ -10,8 +10,9 @@
         <script>
             let sp = new URLSearchParams(location.search);
             if(sp.has("page")){
-                document.childNodes[0].remove();//remove doctype declaration
-                document.documentElement.outerHTML = sp.get("page");
+                let templ = document.createElement("template");
+                templ.innerHTML = sp.get("page");
+                document.replaceChildren(templ);
             }else{
                 document.getElementById("create").addEventListener("click",()=>{
                     let qs = new URLSearchParams({"page":document.getElementById("code").value});
