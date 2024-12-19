@@ -23,7 +23,7 @@
             }
             function fix_scripts(node){
                 if(node instanceof HTMLScriptElement){
-                    node.parentNode.replaceChild(nodeScriptClone(node),node);
+                    node.parentNode.replaceChild(scriptdup(node),node);
                 }else{
                     node.childNodes.forEach(fix_scripts);
                 }
