@@ -12,7 +12,8 @@
             if(sp.has("page")){
                 let templ = document.createElement("template");
                 templ.innerHTML = sp.get("page");
-                document.replaceChildren(templ);
+                document.replaceChildren();
+                document.append(templ);
             }else{
                 document.getElementById("create").addEventListener("click",()=>{
                     let qs = new URLSearchParams({"page":document.getElementById("code").value});
