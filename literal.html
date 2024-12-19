@@ -28,10 +28,13 @@
                     node.childNodes.forEach(fix_scripts);
                 }
             }
+            let loaded = false;
             function hand(){
+                if(loaded)return;
                 let sp = new URLSearchParams(location.search);
                 if(sp.has("page")){
                     document.removeEventListener("load",hand);
+                    loaded = true;
                     document.documentElement.innerHTML = sp.get("page");
                     fix_scripts(document.documentElement);
                     dispatchEvent(new Event("load"));
