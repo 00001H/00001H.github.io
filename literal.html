@@ -13,7 +13,7 @@
                 let templ = document.createElement("template");
                 templ.innerHTML = sp.get("page");
                 document.replaceChildren();
-                document.append(templ);
+                document.append(templ.content.firstChild);
             }else{
                 document.getElementById("create").addEventListener("click",()=>{
                     let qs = new URLSearchParams({"page":document.getElementById("code").value});
