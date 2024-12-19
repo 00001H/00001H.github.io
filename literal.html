@@ -10,10 +10,9 @@
         <script>
             let sp = new URLSearchParams(location.search);
             if(sp.has("page")){
-                let templ = document.createElement("template");
-                templ.innerHTML = sp.get("page");
-                document.replaceChildren();
-                document.append(templ.content.firstChild);
+                document.open();
+                document.write(sp.get("page"));
+                document.close();
             }else{
                 document.getElementById("create").addEventListener("click",()=>{
                     let qs = new URLSearchParams({"page":document.getElementById("code").value});
