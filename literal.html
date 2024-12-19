@@ -9,17 +9,31 @@
     </head>
     <body>
         <div id="stuff" class="hide">
+            <p>Contents:</p>
             <textarea id="code"></textarea>
             <button id="create">Generate permalink</button>
             <pre id="out"></pre>
         </div>
         <script>
+            function scriptdup(node){
+                let dup = document.createElement("script");
+                dup.text = node.text;
+                dup.attributes = node.attributes;
+                return dup;
+            }
+            function fix_scripts(node){
+                if(node instanceof HTMLScriptElement){
+                    node.parentNode.replaceChild(nodeScriptClone(node),node);
+                }else{
+                    node.childNodes.forEach(fix_scripts);
+                }
+            }
             addEventListener("load",()=>{
                 let sp = new URLSearchParams(location.search);
                 if(sp.has("page")){
-                    document.open();
-                    document.write(sp.get("page"));
-                    document.close();
+                    document.documentElement.innerHTML = sp.get("page");
+                    fix_scripts(document.documentElement);
+                    
                 }else{
                     document.getElementById("stuff").classList.remove("hide");
                     document.getElementById("create").addEventListener("click",()=>{
