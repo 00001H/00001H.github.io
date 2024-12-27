@@ -440,13 +440,13 @@ addEventListener("load", () => {
         e.preventDefault();
     });
     cvs.addEventListener("mousemove", (e) => {
-        mpos = ep2cp(cvs, e.x, e.y);
+        mpos = ep2cp(cvs, e.x, e.y).scale_ip(1 / scale);
         if (drag !== null) {
             if (!drag_started && drag.wd.position.distance2(mpos) > drag_slack) {
                 drag_started = true;
             }
-            drag.wd.position.x = (mpos.x - drag.wd.xoffset(padding, radius, drag.idx) - radius) / scale;
-            drag.wd.position.y = (mpos.y - radius) / scale;
+            drag.wd.position.x = mpos.x - drag.wd.xoffset(padding, radius, drag.idx) - radius;
+            drag.wd.position.y = mpos.y - radius;
         }
     });
     document.body.addEventListener("keydown", (e) => {
@@ -521,7 +521,7 @@ addEventListener("load", () => {
         }
     });
     function redraw() {
-        let half_block = (radius + padding / 2) * scale;
+        let half_block = radius + padding / 2;
         ctx.lineWidth = 4 * scale;
         ctx.font = `${radius * scale * 1.1}px "Ink Free" , sans-serif`;
         ctx.clearRect(0, 0, cvs.width, cvs.height);
@@ -538,7 +538,7 @@ addEventListener("load", () => {
                             ctx.strokeStyle = "black";
                         }
                         ctx.beginPath();
-                        ctx.moveTo((word.chx(padding, radius, i)) * scale, (word.position.y + radius) * scale);
+                        ctx.moveTo(word.chx(padding, radius, i) * scale, (word.position.y + radius) * scale);
                         ctx.lineTo(link.wd.chx(padding, radius, link.idx) * scale, (link.wd.position.y + radius) * scale);
                         ctx.stroke();
                     }
@@ -547,19 +547,20 @@ addEventListener("load", () => {
             seen.add(word);
         }
         let i = 0;
+        let pos;
         for (let word of words) {
             ++i;
-            let pos = word.position.copy().scale_ip(scale);
-            let wwidth = word.width(padding, radius) * scale;
+            pos = word.position.copy();
+            let wwidth = word.width(padding, radius);
             ctx.fillStyle = "black";
-            ctx.fillText(`${i}.`, pos.x - radius * 0.9 * scale, pos.y + radius * 0.5 * scale);
+            ctx.fillText(`${i}.`, (pos.x - radius * 0.9) * scale, (pos.y + radius * 0.5) * scale);
             if (word === select) {
                 ctx.fillStyle = "#00000060";
-                ctx.fillRect(pos.x - padding * scale, pos.y - padding * scale, wwidth + padding * 2 * scale, (radius + padding) * 2 * scale);
+                ctx.fillRect((pos.x - padding) * scale, (pos.y - padding) * scale, (wwidth + padding * 2) * scale, (radius + padding) * 2 * scale);
             }
             ctx.strokeStyle = "black";
-            pos.x += radius * scale;
-            pos.y += radius * scale;
+            pos.x += radius;
+            pos.y += radius;
             let wd = word.word();
             if (wd.length === 0) {
                 wd = "\x00";
@@ -583,7 +584,7 @@ addEventListener("load", () => {
                 if (char !== " ") {
                     ctx.beginPath();
                     ctx.fillStyle = "white";
-                    ctx.arc(pos.x, pos.y, radius * scale, 0, 2 * Math.PI);
+                    ctx.arc(pos.x * scale, pos.y * scale, radius * scale, 0, 2 * Math.PI);
                     ctx.fill();
                     ctx.stroke();
                     if (char === "\x00") {
@@ -592,13 +593,13 @@ addEventListener("load", () => {
                             let agreement = word.suggest[charnum].agreement();
                             if (agreement !== undefined && agreement !== null) {
                                 ctx.fillStyle = "#707070";
-                                ctx.fillText(agreement, pos.x, pos.y);
+                                ctx.fillText(agreement, pos.x * scale, pos.y * scale);
                             }
                         }
                     }
                     else {
                         ctx.fillStyle = "black";
-                        ctx.fillText(char, pos.x, pos.y);
+                        ctx.fillText(char, pos.x * scale, pos.y * scale);
                     }
                 }
                 if (mpos.x >= pos.x - half_block && mpos.x <= pos.x + half_block && mpos.y >= pos.y - half_block && mpos.y <= pos.y + half_block) {
@@ -606,9 +607,9 @@ addEventListener("load", () => {
                 }
                 if (hover !== null && word === hover.wd && j === hover.idx) {
                     ctx.fillStyle = "#00000030";
-                    ctx.fillRect(pos.x - half_block, pos.y - half_block, (radius * 2 + padding) * scale, (radius * 2 + padding) * scale);
+                    ctx.fillRect((pos.x - half_block) * scale, (pos.y - half_block) * scale, (radius * 2 + padding) * scale, (radius * 2 + padding) * scale);
                 }
-                pos.x += (radius * 2 + padding) * scale;
+                pos.x += radius * 2 + padding;
             }
         }
         if (linebegin !== null) {
