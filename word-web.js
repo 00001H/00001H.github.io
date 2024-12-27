@@ -408,7 +408,7 @@ addEventListener("load", () => {
             drag_started = false;
         }
         else if (e.button === 1) {
-            if (hover !== null) {
+            if (!playmode && hover !== null) {
                 if (select === hover.wd) {
                     select = null;
                 }
@@ -445,8 +445,8 @@ addEventListener("load", () => {
             if (!drag_started && drag.wd.position.distance2(mpos) > drag_slack) {
                 drag_started = true;
             }
-            drag.wd.position.x = mpos.x - drag.wd.xoffset(padding, radius, drag.idx) - radius;
-            drag.wd.position.y = mpos.y - radius;
+            drag.wd.position.x = (mpos.x - drag.wd.xoffset(padding, radius, drag.idx) - radius) * scale;
+            drag.wd.position.y = (mpos.y - radius) * scale;
         }
     });
     document.body.addEventListener("keydown", (e) => {
