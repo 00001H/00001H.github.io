@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Word Web!</title>
+        <style>
+            html{
+                font-size: 150%;
+            }
+            html, body, h2{
+                margin: 0;
+                border: 0;
+                padding: 0;
+            }
+            p{
+                display: inline;
+            }
+            button{
+                z-index: 1;
+                position: relative;
+            }
+            #canvas{
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 80vw;
+                height: 100vh;
+            }
+            #cluepanel{
+                background-color: black;
+                position: absolute;
+                left: 80vw;
+                top: 0;
+                width: 20vw;
+                height: 100vh;
+                overflow: auto;
+            }
+            #cluepanel>p{
+                display: block;
+                margin: 0;
+            }
+            #cluepanel p{
+                color: white;
+            }
+            dialog::backdrop{
+                background-color: black;
+                opacity: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="1600" height="900">
+            Whoops, your browser doesn't support the HTML5 Canvas!
+        </canvas>
+        <div id="cluepanel"></div>
+        <dialog id="sldiag">
+            <h2>Save/Load</h2>
+            <textarea id="code"></textarea>
+            <div style="margin-left: auto; margin-right: auto; width: fit-content;">
+                <button id="save">Save</button>
+                <button id="load">Load</button>
+                <button id="close">Close</button>
+            </div>
+        </dialog>
+        <p id="scalehint">100%</p>
+        <button tabindex="-1" id="modetoggle">Edit mode</button>
+        <button tabindex="-1" id="slmenu">Save/load menu</button>
+        <script src="main.js"></script>
+    </body>
+</html>
